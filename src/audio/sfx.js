@@ -49,6 +49,33 @@ function note(freq, { at = 0, dur = 0.18, type = 'triangle', gain = 0.5, glideTo
   osc.stop(t + dur + 0.02);
 }
 
+// Filtered white-noise burst (whooshes, slashes, shatters, booms).
+let noiseBuf = null;
+function noise({ at = 0, dur = 0.2, gain = 0.3, type = 'bandpass', freq = 1200, freqTo, q = 1 } = {}) {
+  const c = audio();
+  if (!c) return;
+  if (!noiseBuf) {
+    noiseBuf = c.createBuffer(1, c.sampleRate, c.sampleRate);
+    const d = noiseBuf.getChannelData(0);
+    for (let i = 0; i < d.length; i += 1) d[i] = Math.random() * 2 - 1;
+  }
+  const t = c.currentTime + at;
+  const src = c.createBufferSource();
+  src.buffer = noiseBuf;
+  const f = c.createBiquadFilter();
+  f.type = type;
+  f.Q.value = q;
+  f.frequency.setValueAtTime(freq, t);
+  if (freqTo) f.frequency.exponentialRampToValueAtTime(freqTo, t + dur);
+  const g = c.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(gain, t + 0.01);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  src.connect(f).connect(g).connect(master);
+  src.start(t);
+  src.stop(t + dur + 0.05);
+}
+
 // A bell = fundamental + soft overtone.
 const bell = (f, at, dur = 0.7, gain = 0.32) => { note(f, { at, dur, type: 'sine', gain }); note(f * 2.01, { at, dur: dur * 0.6, type: 'sine', gain: gain * 0.25 }); };
 
@@ -77,5 +104,29 @@ export const play = {
     [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => note(f, { at: at + 0.25 + i * 0.07, dur: 0.22, gain: 0.3 }));
     bell(2093, at + 0.6, 0.8, 0.18);
   },
+  // Boss duel
+  zap: (at = 0) => {
+    note(1500, { at, dur: 0.16, type: 'square', gain: 0.08, glideTo: 380, attack: 0.002 });
+    note(2600, { at, dur: 0.1, type: 'sine', gain: 0.1, glideTo: 900 });
+  },
+  whoosh: (at = 0) => noise({ at, dur: 0.28, gain: 0.45, type: 'bandpass', freq: 350, freqTo: 2600, q: 0.8 }),
+  slash: (at = 0) => {
+    noise({ at, dur: 0.14, gain: 0.55, type: 'highpass', freq: 2500, freqTo: 6000 });
+    note(1100, { at, dur: 0.16, type: 'triangle', gain: 0.2, glideTo: 220 });
+  },
+  shatter: (at = 0) => {
+    noise({ at, dur: 0.45, gain: 0.5, type: 'bandpass', freq: 3200, freqTo: 900, q: 0.7 });
+    [2637, 3520, 3136, 4186, 2793].forEach((f, i) => note(f, { at: at + 0.02 + i * 0.045, dur: 0.18, type: 'sine', gain: 0.07 }));
+  },
+  ko: (at = 0) => {
+    note(140, { at, dur: 0.7, type: 'sine', gain: 0.75, glideTo: 38, attack: 0.004 });
+    noise({ at, dur: 0.5, gain: 0.45, type: 'lowpass', freq: 600, freqTo: 120 });
+    // short brassy victory sting
+    [[523.25, 0.32], [659.25, 0.42], [783.99, 0.52], [1046.5, 0.64]].forEach(([f, d]) => {
+      note(f, { at: at + d, dur: f > 1000 ? 0.7 : 0.16, type: 'sawtooth', gain: 0.07 });
+      note(f, { at: at + d, dur: f > 1000 ? 0.7 : 0.16, type: 'triangle', gain: 0.18 });
+    });
+  },
+  taunt: (at = 0) => { note(392, { at, dur: 0.12, gain: 0.18, glideTo: 523 }); note(311, { at: at + 0.13, dur: 0.22, gain: 0.18, glideTo: 262 }); },
   practice: () => { note(1046.5, { dur: 0.12, gain: 0.25 }); note(1567.98, { at: 0.1, dur: 0.3, gain: 0.25 }); },
 };

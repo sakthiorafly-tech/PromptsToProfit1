@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowLeft, Clock, Zap, ListChecks, Send, CheckCircle2, XCircle, RotateCcw, Lightbulb, Trophy, IdCard, Terminal, Info,
@@ -9,7 +9,8 @@ import { PASS_THRESHOLD } from '../engine/gamification';
 import { CategoryTag, DifficultyPill } from '../components/ui';
 import RewardModal from '../components/RewardModal';
 import SkillCoach from '../components/SkillCoach';
-import BossBattle, { HIT_MS } from '../components/BossBattle';
+import BossBattle, { duelLastHitAt } from '../components/BossBattle';
+import { bossMaxHp } from '../data/bosses';
 import { getBoss } from '../data/bosses';
 import { correctAnswers } from '../data/solutions';
 import { play } from '../audio/sfx';
@@ -139,6 +140,10 @@ function ChallengeView({ missionId }) {
   const [outcome, setOutcome] = useState(null); // { evaluation, reward }
   const [showReward, setShowReward] = useState(false);
 
+  // If the player leaves mid-duel, still deliver the achievements they earned.
+  const pendingAchievements = useRef(null);
+  useEffect(() => () => { if (pendingAchievements.current) pushAchievements(pendingAchievements.current); }, [pushAchievements]);
+
   // Presenter shortcut: Shift + A fills the correct answers (ignored while typing in a field).
   useEffect(() => {
     if (!mission || outcome) return undefined;
@@ -180,14 +185,19 @@ function ChallengeView({ missionId }) {
     // Achievement pop-ups follow the reward modal, or show right away if there is none.
     // On a boss mission, the reward modal waits for the health bar to finish draining.
     const hits = res.evaluation.results.reduce((n, r) => n + r.checks.filter((c) => c.passed).length, 0);
-    const bossDelay = getBoss(mission.id) ? 350 + hits * HIT_MS + 1900 : 0;
+    const isBoss = Boolean(getBoss(mission.id));
+    const duelEnd = isBoss ? duelLastHitAt(hits) : 0;
+    const bossDelay = isBoss ? duelEnd + (hits >= bossMaxHp(mission) ? 2000 : 700) : 0;
     if (res.reward.xpEarned > 0) {
-      if (bossDelay) setTimeout(() => setShowReward(true), bossDelay);
+      if (bossDelay) {
+        pendingAchievements.current = res.achievements;
+        setTimeout(() => { pendingAchievements.current = null; setShowReward(true); }, bossDelay);
+      }
       else setShowReward(true);
     }
     else {
       pushAchievements(res.achievements);
-      const later = (fn) => (bossDelay ? setTimeout(fn, bossDelay - 1800) : fn());
+      const later = (fn) => (isBoss ? setTimeout(fn, duelEnd + 700) : fn());
       if (res.evaluation.passed) {
         later(play.practice);
         notify('Passed! Practice mode, so no additional XP awarded', 'info');
