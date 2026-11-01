@@ -105,3 +105,33 @@
 @keyframes boss-defeated { 0% { transform: scale(.6) rotate(-15deg); } 70% { transform: scale(1.15) rotate(4deg); } 100% { transform: none; } }
 .quest-done { animation: quest-pop 450ms cubic-bezier(.2,.9,.3,1.4) both; }
 @keyframes quest-pop { 0% { transform: scale(.3); opacity: 0; } 100% { transform: none; opacity: 1; } }
+
+/* ── Boss avatars (components/BossAvatar.jsx) ─────────────────────── */
+.boss-avatar .boss-body { transform-box: fill-box; transform-origin: 50% 100%; }
+.boss-idle .boss-body, .boss-hit .boss-body { animation: boss-float 2.6s ease-in-out infinite; }
+.boss-idle .boss-shadow { animation: boss-shadow 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.boss-eye { transform-box: fill-box; animation: boss-blink 4.2s infinite; }
+.boss-head { transform-box: fill-box; animation: boss-sway 2.2s ease-in-out infinite alternate; }
+.boss-clock-hand { animation: boss-spin 1.6s steps(12) infinite; }
+.boss-drip { animation: boss-drip 1.5s ease-in infinite; }
+.boss-antenna { animation: boss-pulse 1s ease-in-out infinite; }
+.boss-ticker { stroke-dasharray: 80; animation: boss-ticker 2s linear infinite; }
+.boss-warning-eyes { animation: boss-pulse 1.4s ease-in-out infinite; }
+.boss-prop { transform-box: fill-box; transform-origin: center; animation: boss-sway 1.8s ease-in-out infinite alternate; }
+.boss-hit { animation: boss-hit 280ms ease-out; }
+.boss-defeated { animation: boss-defeat 900ms cubic-bezier(.3,.7,.3,1) forwards; }
+.boss-defeated .boss-eye, .boss-defeated .boss-body * { animation: none !important; }
+.boss-damage { position: absolute; left: 50%; top: 4px; font: 800 18px/1 'JetBrains Mono', ui-monospace, monospace; color: #F87171; text-shadow: 0 2px 8px rgba(0,0,0,.7); pointer-events: none; animation: boss-damage 750ms ease-out forwards; }
+.boss-crown-pop { animation: boss-crown 600ms cubic-bezier(.2,.9,.3,1.5) 500ms both; }
+@keyframes boss-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes boss-shadow { 0%,100% { transform: scaleX(1); opacity: .35; } 50% { transform: scaleX(.82); opacity: .22; } }
+@keyframes boss-blink { 0%,92%,100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
+@keyframes boss-sway { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+@keyframes boss-spin { to { transform: rotate(360deg); } }
+@keyframes boss-drip { 0% { transform: translateY(-4px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(10px); opacity: 0; } }
+@keyframes boss-pulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
+@keyframes boss-ticker { from { stroke-dashoffset: 80; } to { stroke-dashoffset: 0; } }
+@keyframes boss-hit { 0% { filter: brightness(2.6) saturate(.3); transform: translateX(0) rotate(0); } 30% { transform: translateX(-6px) rotate(-6deg); } 60% { transform: translateX(5px) rotate(4deg); } 100% { filter: none; transform: none; } }
+@keyframes boss-defeat { 0% { transform: none; filter: none; } 40% { transform: rotate(200deg) scale(.85); } 100% { transform: rotate(360deg) scale(.62) translateY(10px); filter: grayscale(1) brightness(.6); opacity: .75; } }
+@keyframes boss-damage { 0% { transform: translate(-50%, 0) scale(.6); opacity: 0; } 25% { transform: translate(-50%, -8px) scale(1.25); opacity: 1; } 100% { transform: translate(-50%, -34px) scale(1); opacity: 0; } }
+@keyframes boss-crown { 0% { transform: translateY(12px) scale(0); opacity: 0; } 100% { transform: none; opacity: 1; } }

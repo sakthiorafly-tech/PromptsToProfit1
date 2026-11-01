@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Skull, Swords, Crown } from 'lucide-react';
+import { Swords, Crown } from 'lucide-react';
+import BossAvatar from './BossAvatar';
 import { getBoss, bossMaxHp } from '../data/bosses';
 import { play } from '../audio/sfx';
 
@@ -19,7 +20,7 @@ export default function BossBattle({ mission, evaluation }) {
     timers.current.forEach(clearTimeout);
     timers.current = [];
     setHp(max);
-    if (!evaluation) return undefined;
+    if (!evaluation) { setShake(0); return undefined; }
     for (let i = 1; i <= hits; i += 1) {
       timers.current.push(setTimeout(() => { setHp(max - i); setShake((s) => s + 1); play.hit(); }, 350 + i * HIT_MS));
     }
@@ -36,8 +37,16 @@ export default function BossBattle({ mission, evaluation }) {
     <section className="card relative overflow-hidden border p-5" style={{ borderColor: `${boss.color}55` }} aria-label={`Boss battle: ${boss.name}`}>
       <div className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full blur-3xl" style={{ background: `${boss.color}22` }} />
       <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center">
-        <div key={shake} className={`grid h-16 w-16 shrink-0 place-items-center rounded-2xl ${shake && !defeated ? 'boss-shake' : ''} ${defeated ? 'boss-defeated' : ''}`} style={{ background: `${boss.color}1f`, boxShadow: `0 0 0 1px ${boss.color}66, 0 10px 30px -10px ${boss.color}` }}>
-          {defeated ? <Crown className="h-8 w-8 text-xp-400" /> : <Skull className="h-8 w-8" style={{ color: boss.color }} />}
+        <div className="relative grid h-24 w-24 shrink-0 place-items-center rounded-2xl" style={{ background: `radial-gradient(circle at 50% 60%, ${boss.color}2e, transparent 70%)`, boxShadow: `inset 0 0 0 1px ${boss.color}40` }}>
+          <div key={defeated ? 'dead' : shake} className={defeated ? '' : shake ? 'boss-hit' : ''}>
+            <BossAvatar id={mission.id} color={boss.color} state={defeated ? 'defeated' : 'idle'} size={80} />
+          </div>
+          {shake > 0 && <span key={`dmg-${shake}`} className="boss-damage">-1</span>}
+          {defeated && (
+            <span className="boss-crown-pop absolute -right-2 -top-2 grid h-8 w-8 place-items-center rounded-full bg-xp-500 shadow-lg ring-2 ring-ink-900">
+              <Crown className="h-4 w-4 text-ink-950" />
+            </span>
+          )}
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">

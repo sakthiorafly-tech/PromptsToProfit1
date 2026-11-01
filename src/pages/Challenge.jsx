@@ -180,14 +180,14 @@ function ChallengeView({ missionId }) {
     // Achievement pop-ups follow the reward modal, or show right away if there is none.
     // On a boss mission, the reward modal waits for the health bar to finish draining.
     const hits = res.evaluation.results.reduce((n, r) => n + r.checks.filter((c) => c.passed).length, 0);
-    const bossDelay = getBoss(mission.id) ? 350 + hits * HIT_MS + 1100 : 0;
+    const bossDelay = getBoss(mission.id) ? 350 + hits * HIT_MS + 1900 : 0;
     if (res.reward.xpEarned > 0) {
       if (bossDelay) setTimeout(() => setShowReward(true), bossDelay);
       else setShowReward(true);
     }
     else {
       pushAchievements(res.achievements);
-      const later = (fn) => (bossDelay ? setTimeout(fn, bossDelay - 1000) : fn());
+      const later = (fn) => (bossDelay ? setTimeout(fn, bossDelay - 1800) : fn());
       if (res.evaluation.passed) {
         later(play.practice);
         notify('Passed! Practice mode, so no additional XP awarded', 'info');
