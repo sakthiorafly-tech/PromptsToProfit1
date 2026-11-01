@@ -5,6 +5,7 @@ import { getSkillGaps, roleReadiness, readinessBand } from './coach';
 import { TALENT_POOL } from '../data/cohort';
 import { DEMO_STUDENT } from '../data/students';
 import { CONCEPTS } from '../data/concepts';
+import { getTitles } from './titles';
 
 const DAY = 86400000;
 
@@ -23,6 +24,7 @@ export function profileFrom(base, state, lastActiveDays) {
     band: readinessBand(best.score),
     missions: Object.keys(state.completed).length,
     passed: new Set(Object.keys(state.completed)),
+    titles: getTitles(Object.keys(state.completed)),
     gaps: getSkillGaps(state),
     lastActiveDays,
   };
@@ -96,4 +98,10 @@ export function downloadCsv(filename, rows) {
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// Titles for leaderboard peers, looked up from their simulated histories.
+export function peerTitles(id) {
+  const p = simulatedProfiles().find((x) => x.id === id);
+  return p ? p.titles : [];
 }

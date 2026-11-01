@@ -71,5 +71,11 @@ export const play = {
   badge: (at = 0) => { bell(1318.5, at, 0.6, 0.26); bell(1975.5, at + 0.09, 0.8, 0.22); },
   achievement: () => { note(987.77, { dur: 0.12, gain: 0.3 }); bell(1318.5, 0.1, 0.9, 0.3); },
   fail: () => { note(311, { dur: 0.16, gain: 0.26 }); note(233, { at: 0.15, dur: 0.32, gain: 0.26, glideTo: 220 }); },
+  hit: (at = 0) => { note(180, { at, dur: 0.12, type: 'square', gain: 0.18, glideTo: 90, attack: 0.002 }); note(1400, { at, dur: 0.03, type: 'sine', gain: 0.1 }); },
+  bossDefeat: (at = 0) => {
+    note(110, { at, dur: 0.5, type: 'sawtooth', gain: 0.12, glideTo: 55 });
+    [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => note(f, { at: at + 0.25 + i * 0.07, dur: 0.22, gain: 0.3 }));
+    bell(2093, at + 0.6, 0.8, 0.18);
+  },
   practice: () => { note(1046.5, { dur: 0.12, gain: 0.25 }); note(1567.98, { at: 0.1, dur: 0.3, gain: 0.25 }); },
 };

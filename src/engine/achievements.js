@@ -3,6 +3,7 @@
 import { getSkillGaps, roleReadiness, skillVector, readinessBand } from './coach';
 import { cohortFor } from './talent';
 import { DEMO_STUDENT } from '../data/students';
+import { titlesForState } from './titles';
 
 const BAND_ORDER = { support: 0, developing: 1, ready: 2 };
 
@@ -20,6 +21,11 @@ export function buildAchievements(before, after, reward) {
       title: `Leaderboard #${reward.prevRank} → #${reward.newRank}`,
       subtitle: `You passed ${reward.prevRank - reward.newRank === 1 ? 'a player' : `${reward.prevRank - reward.newRank} players`} on the XP leaderboard.`,
     });
+  }
+
+  const had = new Set(titlesForState(before).map((t) => t.id));
+  for (const t of titlesForState(after).filter((x) => !had.has(x.id))) {
+    list.push({ id: `title-${t.id}`, kind: 'Title unlocked', icon: 'Crown', color: t.color, title: `You are now a ${t.name}`, subtitle: 'Shown on your Skill Passport and to recruiters.' });
   }
 
   const b0 = batchRank(before);

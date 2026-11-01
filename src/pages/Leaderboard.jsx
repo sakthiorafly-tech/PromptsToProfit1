@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Crown, Zap, Target } from 'lucide-react';
 import { useGame } from '../context/GameContext';
-import { Avatar, SimulatedNote } from '../components/ui';
+import { Avatar, SimulatedNote, TitleChip } from '../components/ui';
+import { peerTitles } from '../engine/talent';
 
 const TABS = [
   { id: 'weekly', label: 'This week' },
@@ -15,7 +16,7 @@ const PODIUM_STYLE = {
 };
 
 export default function Leaderboard() {
-  const { leaderboard } = useGame();
+  const { leaderboard, titles } = useGame();
   const [mode, setMode] = useState('all');
   const rows = leaderboard(mode);
   const me = rows.find((r) => r.isMe);
@@ -86,7 +87,10 @@ export default function Leaderboard() {
                   <div className={`truncate text-sm font-semibold ${s.isMe ? 'text-white' : 'text-ink-100'}`}>
                     {s.name} {s.isMe && <span className="ml-1 rounded-md bg-brand-500 px-1.5 py-0.5 text-[10px] font-bold text-white">YOU</span>}
                   </div>
-                  <div className="truncate text-xs text-ink-500">{s.college}</div>
+                  <div className="flex min-w-0 items-center gap-1.5 text-xs text-ink-500">
+                    <span className="truncate">{s.college}</span>
+                    {(() => { const t = (s.isMe ? titles : peerTitles(s.id))[0]; return t ? <span className="hidden sm:inline-flex"><TitleChip title={t} size="xs" /></span> : null; })()}
+                  </div>
                 </div>
               </div>
               <span className="hidden text-sm font-medium sm:block" style={{ color: s.level.color }}>{s.level.name}</span>

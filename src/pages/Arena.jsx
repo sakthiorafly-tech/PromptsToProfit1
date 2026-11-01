@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Clock, Zap, CheckCircle2, Play, RotateCcw, Star, SearchX } from 'lucide-react';
+import { Search, Clock, Zap, CheckCircle2, Play, RotateCcw, Star, SearchX, Skull } from 'lucide-react';
 import { useGame } from '../context/GameContext';
+import { getBoss } from '../data/bosses';
 import { MISSIONS, CATEGORIES, DIFFICULTIES } from '../data/missions';
 import { CategoryTag, DifficultyPill, Icon } from '../components/ui';
 
@@ -103,6 +104,7 @@ export default function Arena() {
                   <div className="flex items-center gap-1.5">
                     {m.featured && <span className="chip border-brand-500/30 bg-brand-500/10 py-0.5 text-brand-300"><Star className="h-3 w-3 fill-brand-300" /> Featured</span>}
                     <DifficultyPill level={m.difficulty} />
+                    {getBoss(m.id) && <span className="inline-flex items-center gap-1 rounded-full border border-bad-500/30 bg-bad-500/10 px-2 py-0.5 text-[11px] font-bold text-bad-400" title={getBoss(m.id).name}><Skull className="h-3 w-3" /> Boss</span>}
                   </div>
                 </div>
                 <h3 className="mt-4 font-semibold leading-snug text-white">{m.title}</h3>

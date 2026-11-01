@@ -6,6 +6,8 @@ import {
 } from '../engine/gamification';
 import { DEMO_STUDENT } from '../data/students';
 import { buildAchievements } from '../engine/achievements';
+import { titlesForState } from '../engine/titles';
+import { getDailyQuests } from '../engine/quests';
 import { buildCoachReport, recommendNext, getSkillGaps, roleReadiness, skillVector } from '../engine/coach';
 
 const GameContext = createContext(null);
@@ -78,6 +80,8 @@ export function GameProvider({ children }) {
       recommendation: recommendNext(state),
       gaps: getSkillGaps(state),
       readiness: roleReadiness(skillVector(state)),
+      titles: titlesForState(state),
+      quests: getDailyQuests(state),
     };
   }, [state]);
 

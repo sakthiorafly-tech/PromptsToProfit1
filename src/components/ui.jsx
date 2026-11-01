@@ -1,10 +1,10 @@
 import {
-  Rocket, Medal, Trophy, Coffee, Database, Flame, FileCode2, Atom, Brain, Zap, Lock, CheckCircle2, Info, AlertTriangle,
+  Rocket, Medal, Trophy, Coffee, Database, Flame, FileCode2, Atom, Brain, Zap, Lock, CheckCircle2, Info, AlertTriangle, Crown, Swords, RotateCcw,
 } from 'lucide-react';
 import { getCategory } from '../data/missions';
 import { useGame } from '../context/GameContext';
 
-const ICONS = { Rocket, Medal, Trophy, Coffee, Database, Flame, FileCode2, Atom, Brain };
+const ICONS = { Rocket, Medal, Trophy, Coffee, Database, Flame, FileCode2, Atom, Brain, Crown, Swords, RotateCcw };
 export const Icon = ({ name, ...props }) => {
   const C = ICONS[name] || Zap;
   return <C {...props} />;
@@ -140,5 +140,17 @@ export function Toast() {
         <Ico className={`h-4 w-4 ${color}`} /> {toast.message}
       </div>
     </div>
+  );
+}
+
+export function TitleChip({ title, size = 'sm' }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full border font-semibold ${size === 'xs' ? 'px-1.5 py-0.5 text-[10px]' : 'px-2.5 py-1 text-xs'}`}
+      style={{ color: title.color, borderColor: `${title.color}55`, background: `${title.color}14` }}
+      title={title.earn}
+    >
+      <Icon name={title.icon} className={size === 'xs' ? 'h-3 w-3' : 'h-3.5 w-3.5'} /> {title.name}
+    </span>
   );
 }

@@ -36,6 +36,8 @@ src/
     missions.js    # 15 missions × 5 categories, with tasks + predefined answers
     students.js    # 9 simulated peers + demo student profile
     concepts.js    # concept tag + tip for every mission task; job ROLES (category weights)
+    bosses.js      # boss names/taunts for Hard missions; HP = number of test checks
+    titles.js      # player titles (2 missions in a skill; Full-Stack Legend at 4 titles)
     solutions.js   # reference code solutions; correctAnswers() powers the Shift+A demo autofill
     cohort.js      # seeded, simulated talent pool (126 students) as raw completions + attempts
   engine/
@@ -45,6 +47,8 @@ src/
     coach.js         # Skill Coach: rule-based feedback, skill gaps, role readiness,
                      # next-mission recommendation (no AI API; swappable later)
     talent.js        # College/Recruiter analytics; scores the pool with the same engine
+    titles.js        # derives earned titles from completed missions
+    quests.js        # daily quests derived from today's attempts (never change XP)
     achievements.js  # before/after diff → achievement pop-ups (rank, batch rank, career band, gap closed)
   audio/
     sfx.js           # synthesized Web Audio sound effects + mute toggle state (no audio files)
@@ -66,6 +70,7 @@ src/
 - Each attempt also stores `missed` (task ids answered wrongly). Skill gaps = concepts missed in the latest attempt of each mission.
 - Role readiness = weighted category skill scores (`ROLES` in `concepts.js`). Bands: Job-ready ≥ 70, Developing 40–69, Needs support < 40.
 - College/Recruiter views include the live demo student, so passing a mission visibly moves them in the cohort ranking.
+- Boss battles, titles and daily quests are presentation on top of existing facts: they never change XP, badges or readiness.
 - Achievement pop-ups are a UI queue in GameContext (never persisted), shown after the reward modal closes.
 - Simulated data must be deterministic across JS engines: never call the PRNG inside a sort comparator.
 - Storage key: `skillarena:v1`. "Reset Demo" restores the seed state.

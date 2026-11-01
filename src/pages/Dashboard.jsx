@@ -2,11 +2,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Zap, Flame, Target, Trophy, ArrowRight, Clock, CheckCircle2, TrendingUp, Award, Sparkles, Briefcase, AlertTriangle } from 'lucide-react';
 import { readinessBand } from '../engine/coach';
+import DailyQuests from '../components/DailyQuests';
 import { useGame } from '../context/GameContext';
 import { MISSIONS } from '../data/missions';
 import { BADGES } from '../data/badges';
 import {
-  Avatar, ProgressRing, ProgressBar, CategoryTag, DifficultyPill, BadgeTile, SectionTitle, Icon, SimulatedNote,
+  Avatar, ProgressRing, ProgressBar, CategoryTag, DifficultyPill, BadgeTile, SectionTitle, Icon, SimulatedNote, TitleChip,
 } from '../components/ui';
 
 function Stat({ icon: I, label, value, sub, color }) {
@@ -37,7 +38,7 @@ function ChartTooltip({ active, payload }) {
 }
 
 export default function Dashboard() {
-  const { student, xp, level, streak, rank, weeklyXp, weeklyActivity, skills, state, completedCount, history, leaderboard, recommendation, readiness, gaps } = useGame();
+  const { student, xp, level, streak, rank, weeklyXp, weeklyActivity, skills, state, completedCount, history, leaderboard, recommendation, readiness, gaps, titles, quests } = useGame();
   const navigate = useNavigate();
 
   const available = MISSIONS.filter((m) => !state.completed[m.id]).sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
@@ -62,6 +63,9 @@ export default function Dashboard() {
               <h1 className="text-2xl font-bold tracking-tight text-white">{student.name}</h1>
               <p className="text-sm text-ink-400">{student.program} · {student.year}</p>
               <p className="text-sm text-ink-500">{student.college}</p>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {titles.length ? titles.map((t) => <TitleChip key={t.id} title={t} />) : <span className="text-xs text-ink-500">No titles yet. Clear 2 missions in a skill to earn one.</span>}
+              </div>
             </div>
           </div>
           <div className="flex flex-1 items-center gap-5 md:justify-end">
@@ -172,6 +176,8 @@ export default function Dashboard() {
 
         {/* Right column */}
         <div className="space-y-6">
+          <DailyQuests quests={quests} />
+
           <section className="card p-5">
             <SectionTitle title="Career readiness" subtitle="From demonstrated mission performance" action={<Briefcase className="h-5 w-5 text-brand-300" />} />
             <div className="flex items-center justify-between rounded-xl bg-white/[0.03] px-3 py-2.5">

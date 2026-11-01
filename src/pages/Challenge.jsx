@@ -9,6 +9,8 @@ import { PASS_THRESHOLD } from '../engine/gamification';
 import { CategoryTag, DifficultyPill } from '../components/ui';
 import RewardModal from '../components/RewardModal';
 import SkillCoach from '../components/SkillCoach';
+import BossBattle, { HIT_MS } from '../components/BossBattle';
+import { getBoss } from '../data/bosses';
 import { correctAnswers } from '../data/solutions';
 import { play } from '../audio/sfx';
 
@@ -176,14 +178,21 @@ function ChallengeView({ missionId }) {
     const res = submitMission(mission, answers);
     setOutcome(res);
     // Achievement pop-ups follow the reward modal, or show right away if there is none.
-    if (res.reward.xpEarned > 0) setShowReward(true);
+    // On a boss mission, the reward modal waits for the health bar to finish draining.
+    const hits = res.evaluation.results.reduce((n, r) => n + r.checks.filter((c) => c.passed).length, 0);
+    const bossDelay = getBoss(mission.id) ? 350 + hits * HIT_MS + 1100 : 0;
+    if (res.reward.xpEarned > 0) {
+      if (bossDelay) setTimeout(() => setShowReward(true), bossDelay);
+      else setShowReward(true);
+    }
     else {
       pushAchievements(res.achievements);
+      const later = (fn) => (bossDelay ? setTimeout(fn, bossDelay - 1000) : fn());
       if (res.evaluation.passed) {
-        play.practice();
+        later(play.practice);
         notify('Passed! Practice mode, so no additional XP awarded', 'info');
       } else {
-        play.fail();
+        later(play.fail);
         notify(`Score ${res.evaluation.score}%. You need ${PASS_THRESHOLD}% to pass`, 'warn');
       }
     }
@@ -215,6 +224,8 @@ function ChallengeView({ missionId }) {
           <span className="flex items-center gap-1.5"><ListChecks className="h-4 w-4 text-ink-500" /> {mission.tasks.length} tasks · pass at {PASS_THRESHOLD}%</span>
         </div>
       </header>
+
+      <BossBattle mission={mission} evaluation={outcome?.evaluation} />
 
       {/* Result banner */}
       {ev && (

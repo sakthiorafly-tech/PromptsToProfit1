@@ -6,7 +6,7 @@ import { readinessBand } from '../engine/coach';
 import { useGame } from '../context/GameContext';
 import { BADGES } from '../data/badges';
 import { MISSIONS, getMission } from '../data/missions';
-import { Avatar, BadgeTile, CategoryTag, DifficultyPill, Icon, ProgressBar, SectionTitle, Logo } from '../components/ui';
+import { Avatar, BadgeTile, CategoryTag, DifficultyPill, Icon, ProgressBar, SectionTitle, Logo, TitleChip } from '../components/ui';
 
 function ShareDialog({ url, text, onClose }) {
   const [copied, setCopied] = useState(false);
@@ -41,7 +41,7 @@ function ShareDialog({ url, text, onClose }) {
 }
 
 export default function Passport() {
-  const { student, xp, level, skills, state, history, completedCount, rank, notify, readiness, gaps } = useGame();
+  const { student, xp, level, skills, state, history, completedCount, rank, notify, readiness, gaps, titles } = useGame();
   const batch = cohortFor(state, student.college).sort((a, b) => b.readiness - a.readiness);
   const batchRank = batch.findIndex((p) => p.isMe) + 1;
   const topRole = readiness[0];
@@ -98,6 +98,7 @@ export default function Passport() {
             <div className="flex-1">
               <h2 className="text-2xl font-bold text-white">{student.name}</h2>
               <p className="text-sm text-ink-400">{student.handle}</p>
+              {titles.length > 0 && <div className="mt-2 flex flex-wrap gap-1.5">{titles.map((t) => <TitleChip key={t.id} title={t} />)}</div>}
               <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-ink-300">
                 <span className="flex items-center gap-1.5"><GraduationCap className="h-4 w-4 text-ink-500" /> {student.program}, {student.year}</span>
                 <span className="flex items-center gap-1.5"><MapPin className="h-4 w-4 text-ink-500" /> {student.college}</span>

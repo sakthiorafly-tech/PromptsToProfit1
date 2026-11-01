@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { Trophy, GraduationCap, Briefcase, ShieldCheck, X } from 'lucide-react';
+import { Trophy, GraduationCap, Briefcase, ShieldCheck, Crown, X } from 'lucide-react';
 import { useGame } from '../context/GameContext';
 import { play } from '../audio/sfx';
 
-const ICONS = { Trophy, GraduationCap, Briefcase, ShieldCheck };
-const SHOW_MS = 4200;
+const ICONS = { Trophy, GraduationCap, Briefcase, ShieldCheck, Crown };
+const SHOW_MS = 3800;
 
 // Game-style "achievement unlocked" cards, shown one at a time from a queue.
 export default function AchievementToast() {

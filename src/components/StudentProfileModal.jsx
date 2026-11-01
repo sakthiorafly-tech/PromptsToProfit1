@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { X, CheckCircle2, AlertTriangle, Clock, ShieldAlert, IdCard, Briefcase } from 'lucide-react';
 import { MISSIONS } from '../data/missions';
-import { Avatar, CategoryTag, Icon, ProgressBar } from './ui';
+import { Avatar, CategoryTag, Icon, ProgressBar, TitleChip } from './ui';
 
 const lastSeen = (d) => (d <= 0 ? 'Active today' : d === 1 ? 'Active yesterday' : `Active ${d} days ago`);
 
@@ -27,6 +27,7 @@ export default function StudentProfileModal({ profile, onClose, footer }) {
                 <h3 className="text-lg font-semibold text-white">{profile.name}</h3>
                 {profile.isMe && <span className="chip border-brand-500/30 bg-brand-500/10 text-[10px] text-brand-300">Live demo student</span>}
               </div>
+              {profile.titles?.length > 0 && <div className="mt-1.5 flex flex-wrap gap-1">{profile.titles.slice(0, 3).map((t) => <TitleChip key={t.id} title={t} size="xs" />)}</div>}
               <p className="text-sm text-ink-400">{profile.college} · {profile.branch}</p>
               <p className="mt-0.5 flex items-center gap-1 text-xs text-ink-500"><Clock className="h-3 w-3" /> {lastSeen(profile.lastActiveDays)} · {profile.missions} missions proven</p>
             </div>

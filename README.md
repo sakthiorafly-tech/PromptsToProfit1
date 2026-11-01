@@ -16,12 +16,14 @@ npm run dev      # http://localhost:5173
 4. **Switch back to Student → Mission Arena** → filter *React JS* → *Fix a Component Rendering Issue* → *Start Mission*.
 5. Answers: Q1 → B · Q2 → `setItems(prev => [...prev, { id: crypto.randomUUID(), text }]);` · Q3 → C.
    **Presenter shortcut:** click on an empty part of the page and press **Shift + A**. That fills the correct answers on any mission. It is ignored while you're typing in a box.
-6. **Submit** → reward: +220 XP (perfect bonus), level-up to Explorer, *5 Missions* and *7-Day Streak* badges, rank #10 → #9. Click **Continue** and three **achievement pop-ups** slide in: *Rank up*, *Batch rank up* (#39 → #22) and *Career milestone* (Frontend Developer: Developing).
+6. **Submit** → reward: +220 XP (perfect bonus), level-up to Explorer, *5 Missions* and *7-Day Streak* badges, rank #10 → #9. Click **Continue** and four **achievement pop-ups** slide in: *Rank up*, *Title unlocked* (Component Crafter), *Batch rank up* (#39 → #22) and *Career milestone* (Frontend Developer: Developing).
 7. **Skill Coach panel** (45s): what was demonstrated, *Frontend Developer readiness +25*, and the recommended next mission with its reason.
 8. **College view** (45s): Riteesh jumped **#39 → #22** live. Show readiness distribution, top skill gaps (*Assign* a mission), *Needs intervention* filter, *Export placement report*.
 9. **Recruiter view** (45s): hiring for *Java Backend Developer* → *See who passed* on the sponsored banking challenge → open a **Passport** → **Shortlist** → export.
 10. **Business Overview** (60s): who pays (colleges ₹30k/yr, employers ₹10k/campaign, students ₹149/mo), all illustrative.
 11. **Reset demo** restores the starting state.
+
+**Game features to point out:** the *Today's quests* card on the dashboard (3 of 4 done after the demo), player titles on the dashboard, leaderboard and Skill Passport, and **boss battles**: every Hard mission (marked *Boss* in the Arena) has a health bar that drains one hit per passed test check.
 
 **Optional: show the coach on a failure.** Open *Optimize a Slow Database Query* and answer wrongly. The coach names the exact gaps (sargability, date ranges, composite index) and recommends a retry.
 
