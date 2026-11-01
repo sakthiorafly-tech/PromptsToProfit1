@@ -59,7 +59,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-4">
             <Avatar name={student.name} color={student.color} size={64} ring />
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-white">{student.name} banglore </h1>
+              <h1 className="text-2xl font-bold tracking-tight text-white">{student.name} </h1>
               <p className="text-sm text-ink-400">{student.program} · {student.year}</p>
               <p className="text-sm text-ink-500">{student.college}</p>
             </div>
