@@ -1,0 +1,296 @@
+# PROJECT: SKILLARENA – INTERACTIVE HACKATHON PROTOTYPE
+
+Act as a senior Product Designer, UI/UX Designer and React Frontend Developer.
+
+I want to develop a visually impressive, highly interactive prototype of **SkillArena – Play. Prove. Get Hired.**
+
+This is an IIT Gandhinagar hackathon prototype. I do NOT want a complete production application.
+
+## 1. Product Vision
+
+SkillArena is a gamified skill-development and talent-discovery platform.
+
+Students complete real-world technical challenges, earn XP points, unlock achievements, compete on leaderboards and build a digital Skill Passport.
+
+Colleges can use the platform to understand students' practical skill readiness. Companies can use it to discover talented candidates through practical challenges.
+
+## 2. Strict Technology Requirements
+
+- React JS with Vite
+- JavaScript only (no TypeScript)
+- Tailwind CSS
+- React Router
+- Lucide React icons
+- Recharts where charts are useful
+- Local JSON / JavaScript mock data
+- LocalStorage for persisting user progress
+
+**Do not develop:**
+- Spring Boot backend
+- Java backend APIs
+- PostgreSQL database
+- JWT authentication
+- Server-side infrastructure
+- Unnecessary microservices
+
+Everything must run locally in the browser.
+
+## 3. Main Application Screens
+
+### A. Landing / Login Page
+- Attractive SkillArena branding.
+- Tagline: Play. Prove. Get Hired.
+- Modern hero section.
+- Feature highlights.
+- Demo login button.
+- A clear call to action.
+
+### B. Student Dashboard
+Display:
+- Student profile and avatar.
+- Total XP points.
+- Current level.
+- Daily streak.
+- Completed missions.
+- Available missions.
+- Skill-wise progress.
+- Recent achievements.
+- Weekly activity chart.
+- Leaderboard position.
+
+### C. Mission Arena
+Create mission categories:
+- Java
+- Python
+- SQL
+- React JS
+- Problem Solving
+
+Each mission card should display:
+- Mission title.
+- Description.
+- Difficulty.
+- Estimated completion time.
+- XP reward.
+- Completion status.
+- Start Mission button.
+
+Include search, category filtering and difficulty filtering.
+
+### D. Mission Challenge Screen
+Create interactive challenges.
+
+Sample missions:
+
+1. Java Debugging – Banking Transaction System
+2. SQL Challenge – Optimize a Slow Database Query
+3. Python Challenge – Analyze a Sales Dataset
+4. React Challenge – Fix a Component Rendering Issue
+
+Each challenge should include:
+- Problem statement.
+- Scenario description.
+- Instructions.
+- Questions or coding-style tasks.
+- Answer submission.
+- Test/evaluation results.
+- Feedback and explanation.
+
+Use predefined answers and deterministic evaluation. No external AI API is required.
+
+### E. Reward System
+After successfully completing a mission:
+- Display a visually attractive success animation.
+- Show XP earned.
+- Show badge unlock if applicable.
+- Display level-up animation when appropriate.
+- Provide a Continue button.
+
+Create these levels:
+
+| Level | XP Required |
+|---|---:|
+| Beginner | 0–499 |
+| Explorer | 500–999 |
+| Achiever | 1000–1999 |
+| Expert | 2000–3499 |
+| Master | 3500+ |
+
+Create badges:
+- First Mission
+- 5 Missions Completed
+- 10 Missions Completed
+- Java Master
+- SQL Explorer
+- 7-Day Streak
+
+### F. Leaderboard
+Display:
+- Top 10 students.
+- Student avatar.
+- Name.
+- XP points.
+- Level.
+- Rank.
+- Highlight the logged-in demo student.
+
+Provide weekly and all-time tabs.
+
+### G. Skill Passport
+Create a professional digital skill profile containing:
+- Student information.
+- Overall XP.
+- Level.
+- Completed missions.
+- Skill-wise performance.
+- Earned badges.
+- Challenge history.
+
+Add a Share Skill Passport button. It can use a simulated share experience or browser share functionality when supported.
+
+Clearly communicate that this is a record of demonstrated challenge performance, not an accredited professional certification.
+
+## 4. Gamification Logic
+
+Implement centralized JavaScript functions for:
+- XP calculation.
+- Level calculation.
+- Mission completion.
+- Badge unlocking.
+- Leaderboard updates.
+- Skill progress calculation.
+
+Rules:
+- Award XP only after successful completion.
+- Never award XP twice for the same mission.
+- Persist progress using LocalStorage.
+- Dashboard, leaderboard and Skill Passport must reflect the same data.
+- Provide a Reset Demo option.
+
+## 5. UI/UX Design Direction
+
+I want a premium, modern SaaS product design.
+
+Design inspiration:
+- Modern gaming dashboards.
+- Duolingo-style gamification.
+- Linear-style clean layouts.
+- Modern developer platforms.
+
+Visual direction:
+- Dark navy / charcoal background.
+- Attractive accent colors.
+- Modern typography.
+- Beautiful cards and progress indicators.
+- Smooth transitions.
+- Micro-interactions.
+- XP reward animations.
+- Responsive layout for laptop and mobile.
+- Consistent sidebar navigation.
+- Professional icons.
+
+Avoid:
+- Generic admin dashboard appearance.
+- Excessive gradients.
+- Overcrowded screens.
+- Unnecessary animations.
+- Nonfunctional buttons.
+- Placeholder content.
+
+The application should look like a real startup product ready for an investor demonstration.
+
+## 6. Demo Data
+
+Create realistic mock data:
+- 10 student profiles.
+- 15 technical missions.
+- Different skill categories.
+- Different difficulty levels.
+- XP rewards.
+- Achievement badges.
+- Mission completion history.
+- Leaderboard data.
+
+Clearly treat all student profiles and statistics as simulated demo data.
+
+## 7. Prototype Interaction Requirements
+
+This is NOT a collection of static HTML screens.
+
+All major buttons must work.
+
+The following complete flow must work:
+
+Login ? Dashboard ? Mission Arena ? Start Mission ? Submit Answer ? Evaluate Result ? Award XP ? Unlock Badge ? Update Leaderboard ? Update Skill Passport.
+
+Use LocalStorage so progress survives browser refresh.
+
+Use a centralized mock data and state management approach. Avoid duplicating progress data across screens.
+
+## 8. Business Model / Investor Presentation
+
+Prepare a separate business overview section or presentation page explaining:
+
+Revenue sources:
+1. Student Premium Subscription – illustrative ?149/month.
+2. College SaaS Subscription – illustrative ?30,000/year.
+3. Employer-Sponsored Challenges – illustrative ?10,000/campaign.
+
+These are proposed pricing assumptions, not validated commercial prices.
+
+Explain:
+- Problem being solved.
+- Target customers.
+- Value proposition.
+- Revenue model.
+- Customer acquisition strategy.
+- Scalability.
+- Competitive differentiation.
+
+Do not invent actual users, partnerships, revenue or market traction.
+
+## 9. Development Workflow
+
+Before coding:
+
+1. Analyze the complete requirements.
+2. Propose the application architecture.
+3. Propose the screen structure and navigation.
+4. Define mock data structures.
+5. Define centralized gamification logic.
+6. Identify any missing decisions and ask me questions if necessary.
+
+Then develop the application incrementally.
+
+Development priority:
+
+Phase 1: Project setup, branding, navigation and landing page.
+
+Phase 2: Dashboard and Mission Arena.
+
+Phase 3: Interactive mission challenges and evaluation.
+
+Phase 4: XP engine, levels, badges and animations.
+
+Phase 5: Leaderboard and Skill Passport.
+
+Phase 6: Business overview, responsive design and final testing.
+
+After every phase, ensure the application runs successfully.
+
+## 10. Final Acceptance Criteria
+
+The prototype is complete only when:
+
+- All main screens are functional.
+- The complete student journey works.
+- Mission evaluation works without an external API.
+- XP is awarded correctly.
+- Duplicate XP is prevented.
+- Leaderboard updates dynamically.
+- Skill Passport updates dynamically.
+- LocalStorage preserves progress.
+- UI is polished and responsive.
+- The application can be demonstrated reliably without internet-dependent backend services.
+
+**Most important:** Prioritize a visually impressive, functional, investor-ready prototype over production-level backend architecture.
